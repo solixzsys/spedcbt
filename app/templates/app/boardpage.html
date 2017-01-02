@@ -1,0 +1,119 @@
+{% extends "app/layout.html" %}
+<script>
+    Cookies.remove('start_time', { path: '/questionpage' })
+    Cookies.remove('timeval', { path: '/questionpage' })
+</script>
+{% block content %}
+{% load staticfiles %}
+
+<div>
+    <div class="row info-bar">
+        <div class="col-md-3 ">
+        <img class="pull-right" style="width:100px;height:80px;margin-top:2em" src="{% static 'app/images/fxlogic2.png' %}" />
+            
+          
+        </div>
+        <div class="col-md-6" >
+       
+        </div>
+        <div class="col-md-3">
+        <img class="pull-left img-thumbnail" style="width:100px;height:80px;margin-top:2em" src="/media/{{student.picture}}" />
+            
+          
+        </div>
+    </div>
+    <div class="row info-candidate">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 text-center info-panel">
+            <div class="panel panel-info">
+                <div class="panel-heading">Candidate information</div>
+                <div class="panel-body">
+                   <table class="table table-striped">
+                       
+                       <tr>
+                           <td><b>First Name</b></td>
+                           <td>{{student.firstname}}</td>
+
+                       </tr>
+                       <tr>
+                           <td><b>Last Name</b></td>
+                           <td>{{student.lastname}}</td>
+
+                       </tr>
+                       <tr>
+                           <td><b>Matric Number</b></td>
+                           <td>{{student.matricnumber}}</td>
+
+                       </tr>
+                       <tr>
+                           <td><b>Department</b></td>
+                           <td>{{student.department}}</td>
+
+                       </tr>
+                       <tr>
+                           <td><b>Faculty</b></td>
+                           <td>{{student.faculty}}</td>
+
+                       </tr>
+                       
+                   </table>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        </div>
+        <div class="row info-instruction" style="margin-left:6em" >
+            <div style="font-weight:bolder;text-decoration:underline">INSTRUCTIONS:</div>
+            <div class="col-md-8">
+                <p>Student should read this information very well before starting the exam. If there is any issue with the instruction, make sure to notify any of our examiners for more detail.</p>
+                <ul>
+                    <li>
+                        Make sure you have register for the Course Module you are about to be taking.
+                    </li>
+                    <li>
+                        Make sure you have paid your school fee
+                    </li>
+                    <li>
+                        The candidate information desplay above should be check if all the information are corect.
+                    </li>
+                    <li>
+                        The picture thumbnail should be verify that you are the one appearing on the picture
+                    </li>
+                    <li>
+                        GOOD LUCK !!! 
+                    </li>
+                </ul>
+               
+            </div>
+        </div>
+    <div class="row info-selector" style="margin-left:6em">
+        <div class="col-md-12">
+            <p>
+                Select Your Exam Below:
+            </p>
+            <select id="modselect" class="form-control">
+                {% for module in modules%}
+                <option>
+                    {{module}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row info-start" style="margin-left:6em">
+        <div class="col-md-12">
+            
+            <a id="startbtn" class="btn btn-default btn-primary" style="width:20%;margin-top:10px"  role="button">Start</a>
+            
+        </div>
+    </div>
+    <div class="row info-timer">
+        <div class="col-md-10"></div>
+        <div class="col-md-2 ">
+            <div style="font-weight:bolder;color:green">Timer Info</div>
+        </div>
+    </div>
+</div>
+    {% endblock %}

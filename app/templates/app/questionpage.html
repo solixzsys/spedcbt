@@ -1,0 +1,161 @@
+﻿
+
+{% extends "app/layout.html" %}
+
+
+{% block content %}
+
+{% if questions.has_other_pages %}
+<div class="row  ">
+    <div class="col-md-4 " style="font-weight:900;font-size:x-large;color:orangered">
+        <div id="timespot" class="timespot pull-right">
+            00:00:00
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <span id="duration" class="hidden" >
+            {{duration}}
+        </span>
+        <span id="prev_ans" class="hidden" >
+            {{prev_ans}}
+        </span>
+        <span id="timepart" class="" >
+            
+        </span>
+       
+    </div>
+
+    <div class="col-md-4">
+        <div class="countdowspot pull-left" style="color:#447947;font-weight:bolder">
+            
+        </div>
+       
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-2">
+
+
+    </div>
+
+    <div class="col-md-8" style="margin-top:5%;margin-bottom:5%;padding:5%; color:black">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+
+                {%for question in questions %}
+                <p>
+                    {{questions.number}}.  - {{question.question}}
+                </p>
+            </div>
+            <div class="panel-body"style="margin-left:2em">
+                {% if question.questiontype == 'SINGLE' %}
+                <p>
+
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optiongrp"  />{{question.optionA}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optiongrp" />{{question.optionB}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optiongrp" />{{question.optionC}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optiongrp" />{{question.optionD}}
+                        </label>
+                    </div>
+
+                </p>
+                {% else %}
+                <p>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"   />{{question.optionA}}
+                        </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"  />{{question.optionB}}
+                        </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"  />{{question.optionC}}
+                        </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" />{{question.optionD}}
+                        </label>
+                    </div>
+
+                </p>
+                {% endif%}
+                {% endfor %}
+
+            </div>
+            <div class="col-md-2">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row"  >
+    <div class="col-md-2"></div>
+     <div class="col-md-2 " >
+        {% if questions.has_previous %}
+        <a id="prev" href="/questionpage?module={{module}}&&page={{ questions.previous_page_number }}" class="btn btn-default ">Previous</a>
+        {% endif %}
+    </div>
+    <div class="col-md-4" >
+        
+        <ul class="pagination">
+            {% for i in questions.paginator.page_range %}
+            {% if questions.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">( current) </span></span></li>
+            {% else %}
+            <li><a href="/questionpage?module={{module}}&&page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if questions.has_next %}
+            <li><a href="/questionpage?module={{module}}&&page={{ questions.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+
+        </ul>
+        <a id="post"  class="btn btn-default"  >Submit</a>
+    </div>
+    <div class="col-md-2"  >
+        
+        {% if questions.has_next %}
+         <a id="prev" href="/questionpage?module={{module}}&&page={{ questions.next_page_number }}" class="btn btn-default  ">Next</a>
+        {% endif %}
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endif %}
+
+
+
+  {% endblock %}
+
