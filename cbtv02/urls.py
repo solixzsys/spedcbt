@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^about', app.views.about, name='about'),
     url(r'^register', app.views.register, name='register'),
     url(r'^boardpage', app.views.boardpage, name='boardpage'),
+    url(r'^result', app.views.result, name='result'),
     url(r'^reset', app.views.reset, name='reset'),
     #url(r'^questionpage/(?P<module>\w+)', app.views.questionpage, name='questionpage'),
     url(r'^questionpage', app.views.questionpage, name='questionpage'),

@@ -4,7 +4,7 @@ from app.models import *
 admin.site.site_header="fxSoftLogix CBT"
 admin.site.site_title="CBT Administration"
 admin.site.register(Cbt_role)
-
+from django.http import HttpResponseRedirect
 
 
 class Cbt_examinerAdmin(admin.ModelAdmin):
@@ -41,7 +41,7 @@ admin.site.register(Cbt_sessions)
 
 class Cbt_questionAdmin(admin.ModelAdmin):
     list_display=('question_code','question','scheduled','module','questiontype')
-
+    list_filter=('module__code',)
     def get_queryset(self, request):
         qs= super(Cbt_questionAdmin,self).get_queryset(self)
         if request.user.is_superuser:
@@ -65,14 +65,16 @@ class Cbt_questionAdmin(admin.ModelAdmin):
 admin.site.register(Cbt_questions,Cbt_questionAdmin)
 
 class CBT_ExamAdmin(admin.ModelAdmin):
-    list_display=('module','exam_date','status','exam_owner','time_length')
-
+    list_display=('module','exam_date','status','exam_owner','level','time_length','instant_release')
+    filter_horizontal=('exclussion',)
 
     def save_model(self, request, obj, form, change):
         user=request.user
         print("{} schedule an {} exam".format(user,obj))
         
-        mod=Cbt_modules.objects.get(code=obj.module)
+        mod=Cbt_modules.objects.get(code=obj.module)      
+
+
         mod.status=obj.status
         mod.save()
         ques=Cbt_questions.objects.filter(module=mod).update(scheduled=True)

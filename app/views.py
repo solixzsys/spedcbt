@@ -131,7 +131,9 @@ def boardpage(request):
         try:
             print('login email..............',email)
             s=Cbt_students.objects.get(email=email)
-            m=Cbt_modules.objects.all()
+            #m=Cbt_modules.objects.all()
+            schedule_exam = CBT_Exam.objects.all()
+            m=schedule_exam
         
 
 
@@ -164,6 +166,16 @@ def about(request):
             'year':datetime.now().year,
         }
     )
+
+
+def result(request):
+
+    std_session=Cbt_StudentSession.objects.filter(student__username__icontains=request.user)
+
+
+    return render(request,'app/result.html',{
+        'exam_info':std_session,
+        })
 
 def postanswer(request):
     """Renders the about page."""

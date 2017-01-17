@@ -5,6 +5,7 @@ Definition of models.
 from django.db import models
 from django.contrib.auth.models import  User
 from datetime import datetime
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 
@@ -221,13 +222,25 @@ class CBT_Exam(models.Model):
     exam_owner=models.ForeignKey(User)
     #schedule stage
     status=models.CharField(max_length=200,choices=STATUS_CHOICES,default='SCHEDULED')
-
+    instant_release=models.BooleanField(default=True)
+    level=models.ForeignKey(Cbt_level,blank=True,null=True)
+    exclussion=models.ManyToManyField(Cbt_students,blank=True,null=True)
     class Meta:
         verbose_name='CBT EXAM'
         verbose_name_plural='CBT EXAMS'
 
     def __str__(self):
         return "{} ".format(self.module)
+
+    def clean(self):
+        if len(Cbt_questions.objects.filter(module=self.module))<1:
+            raise ValidationError('Please, the Questions for the '+ self.module.code + ' has not been Uploaded Yet !!!')
+        super(CBT_Exam,self).clean()
+
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(CBT_Exam,self).save(*args,**kwargs)
 
 class Cbt_ExamSession(models.Model):
     student=models.ForeignKey(Cbt_students,blank=True,null=True)
