@@ -1,8 +1,9 @@
 from django.contrib import admin
 from app.models import *
+from django import forms
 
-admin.site.site_header="fxSoftLogix CBT"
-admin.site.site_title="CBT Administration"
+admin.site.site_header="fxSoftLogix"
+admin.site.site_title="CBTCUBE Administration"
 admin.site.register(Cbt_role)
 from django.http import HttpResponseRedirect
 
@@ -23,14 +24,48 @@ class Cbt_modulesAdmin(admin.ModelAdmin):
 
 admin.site.register(Cbt_modules,Cbt_modulesAdmin)
 admin.site.register(Cbt_semester)
+
+class Cbt_studentAdminForm(forms.ModelForm):
+    class Meta:
+        model=Cbt_students
+        exclude=('username',)
+        widgets={
+            'password':forms.PasswordInput(),
+            }
+
 class Cbt_studentAdmin(admin.ModelAdmin):
-    list_display=('username','email','matricnumber')
-    search_fields = ['username','matricnumber']
+    form=Cbt_studentAdminForm
+    
+    list_display=('firstname','email','matricnumber')
+    search_fields = ['firstname','matricnumber']
+
+
+
+    def save_model(self, request, obj, form, change):
+        print('^^^^^^^^^^^^^^^^^^^  ',obj.username)
+        self.username=obj.firstname+"_"+obj.matricnumber
+        User.objects.create_user(username=self.username,
+                            password=obj.password,
+                            first_name=obj.firstname,
+                            last_name=obj.lastname,
+                            email=obj.email
+                            )
+
+        
+        return super().save_model(request, obj, form, change)
 admin.site.register(Cbt_students,Cbt_studentAdmin)
 admin.site.register(Cbt_level)
 
+
+
+
+
 class Cbt_facultyAdmin(admin.ModelAdmin):
     filter_horizontal=('department',)
+
+
+    
+
 admin.site.register(Cbt_faculty,Cbt_facultyAdmin)
 
 class Cbt_departmentAdmin(admin.ModelAdmin):
@@ -38,6 +73,10 @@ class Cbt_departmentAdmin(admin.ModelAdmin):
 admin.site.register(Cbt_department,Cbt_departmentAdmin)
 
 admin.site.register(Cbt_sessions)
+
+
+
+
 
 class Cbt_questionAdmin(admin.ModelAdmin):
     list_display=('question_code','question','scheduled','module','questiontype')
@@ -64,7 +103,17 @@ class Cbt_questionAdmin(admin.ModelAdmin):
 )
 admin.site.register(Cbt_questions,Cbt_questionAdmin)
 
+
+from django.contrib.auth.models import User
+
+class CBT_ExamAdminForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(CBT_ExamAdminForm,self).__init__(*args,**kwargs)
+        self.fields['exam_owner'].queryset=User.objects.filter(is_staff=True)
+
+
 class CBT_ExamAdmin(admin.ModelAdmin):
+    form=CBT_ExamAdminForm
     list_display=('module','exam_date','status','exam_owner','level','time_length','instant_release')
     filter_horizontal=('exclussion',)
 
@@ -96,7 +145,7 @@ class Cbt_ExamSessionAdmin(admin.ModelAdmin):
 admin.site.register(Cbt_ExamSession,Cbt_ExamSessionAdmin)
 
 class Cbt_StudentSessionAdmin(admin.ModelAdmin):
-    list_display=('student','module','exam_status','date','total_attempt','total_score')
+    list_display=('student','module','exam_status','date','total_attempt','total_score','total_questions')
 
 
 

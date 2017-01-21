@@ -35,19 +35,55 @@ $(function () {
                 x = x + i + '-';
             }
         })
-        //alert(x)
+        //alert($('#qnum').html().trim());
         $.get("/postanswer", { data: x })
             .done(function (data) {
                 $('#post')
                     .text('Done !!!')
                     
                     .addClass('btn-success');
+                //setcolor(data.data);
                 
             });
 
 
     });
-   
+
+
+    $.get("/get_answer", {})
+
+           .done(function (data) {
+               console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myans' + data.ans)
+               //console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myque' + data.ques)
+               setcolor(data.ques,data.ans);
+
+           });
+
+    var queslist = $('#qlist').html();
+   // var myans = $('#anslist').html();
+    var l = ['z', 'c', 'v']
+
+    //console.log('---' + JSON.parse(myans))
+    
+    //console.log('$$$$$$$$$$$$$$$$$$$$$$ link' + links[8])
+    
+    var setcolor = function (ques,ans) {
+        
+        var links = $('.pagination li a');
+        $.each(links, function (i, v) {
+            console.log(ques[i]+' ----------- '+i)
+            
+            if (ans.indexOf(ques[$(v).html()-1]) > 0) {
+                console.log('^^^^^^^^^^^^^^^^^^^^^^ match')
+                $(v).css({'color':'green'})
+            }
+        })
+       
+        
+    }
+
+    //setcolor();
+
 
     setInterval(function () {
         var newdate=new Date();

@@ -14,12 +14,12 @@
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingOne">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{exam.module}}" aria-expanded="true" aria-controls="collapseOne">
           <span><h4>{{exam.module}} Result</h4></span>
         </a>
       </h4>
     </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+    <div id="collapseOne{{exam.module}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
         <table class="table table-striped">
                        
@@ -53,6 +53,11 @@
                            <td>{{exam.total_attempt}}</td>
 
                        </tr>
+             <tr>
+                           <td><b>Total Number Of Questions</b></td>
+                           <td>{{exam.total_questions}}</td>
+
+                       </tr>
                         <tr>
                            <td><b>Total Score</b></td>
                            <td>{{exam.total_score}}</td>
@@ -77,11 +82,12 @@
 <script src="../../static/app/scripts/Chart.js"></script>
 
 <script>
-var ctx = document.getElementById("myChart");
+    var ctx = document.getElementById("myChart");
+    label_list=["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels:label_list ,
         datasets: [{
             label: '# of Votes',
             data: [12, 19, 3, 5, 2, 3],

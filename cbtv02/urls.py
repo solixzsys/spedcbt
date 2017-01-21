@@ -26,6 +26,7 @@ urlpatterns = [
     #url(r'^questionpage/(?P<module>\w+)', app.views.questionpage, name='questionpage'),
     url(r'^questionpage', app.views.questionpage, name='questionpage'),
     url(r'^postanswer', app.views.postanswer, name='postanswer'),
+    url(r'^get_answer', app.views.get_answer, name='get_answer'),
     #url(r'^login/$',
     #    django.contrib.auth.views.login,
     #    {

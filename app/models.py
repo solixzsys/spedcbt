@@ -6,9 +6,6 @@ from django.db import models
 from django.contrib.auth.models import  User
 from datetime import datetime
 from django.core.exceptions import ValidationError
-# Create your models here.
-
-
 
 
 
@@ -142,6 +139,7 @@ class Cbt_questions(models.Model):
     creator=models.ForeignKey(Cbt_examiner)
     questiontype=models.CharField(max_length=20,choices=QUESTION_TYPES,default='SINGLE',blank=True)
     answer=models.CharField(max_length=10,default="",blank=True)
+    #answerd=models.BooleanField(default=False)
     optionA=models.CharField(max_length=200,default="",blank=True,verbose_name="Option A")
     optionB=models.CharField(max_length=200,default="",blank=True,verbose_name="Option B")
     optionC=models.CharField(max_length=200,default="",blank=True,verbose_name="Option C")
@@ -204,6 +202,10 @@ class Cbt_students(models.Model):
 
         return "{}".format(self.username)
 
+    def save(self,**kwargs):
+        print('^^^^^^^^^^^^^^^^^^^^^^^^^^ saving student')
+        self.username=self.firstname+"_"+self.matricnumber
+        return super().save(**kwargs)
 
 class CBT_Exam(models.Model):
     #status choices
@@ -215,7 +217,7 @@ class CBT_Exam(models.Model):
     #exam date
     exam_date=models.DateTimeField()
     #module
-    module=models.ForeignKey(Cbt_modules)
+    module=models.ForeignKey(Cbt_modules,unique=True)
     #duration
     time_length=models.IntegerField()
     #exam owner
@@ -239,8 +241,9 @@ class CBT_Exam(models.Model):
 
 
     def save(self, *args, **kwargs):
+        #self.exam_owner= User.objects.filter(is_staff=True)
         self.full_clean()
-        super(CBT_Exam,self).save(*args,**kwargs)
+        super().save(*args,**kwargs)
 
 class Cbt_ExamSession(models.Model):
     student=models.ForeignKey(Cbt_students,blank=True,null=True)
@@ -261,3 +264,9 @@ class Cbt_StudentSession(models.Model):
     date=models.DateTimeField(blank=True)
     total_score=models.IntegerField(default=0)
     total_attempt=models.IntegerField(default=0)
+    total_questions=models.IntegerField(default=0)
+
+    def save(self,**kwargs):
+        
+        self.total_questions= Cbt_questions.objects.filter(module=self.module).count()
+        return super().save(**kwargs)

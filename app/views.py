@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.views import login,logout
 from datetime import datetime
-
+from django.http import JsonResponse
 
 def mylogin(request):
     matricno=request.POST.get('matricnumber','')
@@ -56,9 +56,12 @@ def register(request):
         if form.is_valid():
             print('**********valid form*************')
             uname=form.cleaned_data['username']
+            mnumber=form.cleaned_data['matricnumber']
+            fname=form.cleaned_data['firstname']
             email=form.cleaned_data['email']
             password=form.cleaned_data['password']
-            user=User.objects.create(username=uname,email=email)
+            #form.cleaned_data['username']=fname+'_'+mnumber
+            user=User.objects.create(username=fname+'_'+mnumber,email=email)
             user.set_password(password)
             user.save()
             print('***************user created***********')
@@ -171,10 +174,14 @@ def about(request):
 def result(request):
 
     std_session=Cbt_StudentSession.objects.filter(student__username__icontains=request.user)
+    mod=std_session[0].module
+    number_of_question=Cbt_questions.objects.filter(module=mod).count()
+    print('mod from result ++++++++++++++++++++++++++',mod)
 
 
     return render(request,'app/result.html',{
         'exam_info':std_session,
+        'qnumber':number_of_question,
         })
 
 def postanswer(request):
@@ -187,6 +194,12 @@ def postanswer(request):
 
     data=request.GET.get('data',0)
     
+    #qnum=request.GET.get('qnum',0)
+    #if request.session.get('qnum',0)==0:
+    #    request.session['qnum']=str(qnum)
+    #else:
+    #    request.session['qnum']=request.session['qnum']+"-"+str(qnum)    
+    #    print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ',request.session.get('qnum'))
     #posting to examsession
     #parameters are:
     #user object
@@ -251,13 +264,13 @@ def postanswer(request):
     #print('user ',user,'   posted..................................')
     #print('New created.............................................',ques)
     #restructiorint the student session model
-    attempt_count=Cbt_ExamSession.objects.filter(student__matricnumber=mn).count()
+    attempt_count=Cbt_ExamSession.objects.filter(student__matricnumber=mn,question__module__code=request.session['module']).count()
     x=Cbt_ExamSession.objects.filter(student__matricnumber=mn,question__module__code=request.session['module'])
     rt=0
     for i in x:
         rt=rt+i.result
     try:
-        ss=Cbt_StudentSession.objects.get(student=std)
+        ss=Cbt_StudentSession.objects.get(student=std,module__code=request.session['module'])
         ss.total_score=rt
         ss.save()
         ss.total_attempt=attempt_count
@@ -285,15 +298,10 @@ def postanswer(request):
 
 
 
-    return render(
-        request,
-        'app/about.html',
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        }
-    )
+    return JsonResponse({
+        #'data':list(set(list(request.session.get('qnum').split('-'))))
+        'data':''
+        })
 
 
 def reset(request):
@@ -396,6 +404,19 @@ def questionpage1(request,module):
             )
     return HttpResponseRedirect('/boardpage/')
 
+def get_answer(request):
+    mn=request.session.get('matricno',0)
+    answeredlist=''
+    qlist=''
+    if mn != 0:
+        mod=request.session.get('module','')
+        if mod != '':
+            answered=Cbt_ExamSession.objects.filter(student=Cbt_students.objects.get(matricnumber=mn),question__module__code=mod)
+            answeredlist=[ans.question.question for ans in answered]
+            ques=Cbt_questions.objects.filter(module__code=mod)
+            qlist=[q.question for q in ques]
+    return JsonResponse({'ans':answeredlist,'ques':qlist})
+
 def questionpage(request):
     print('inside view.......................')
     module= request.GET.get('module')
@@ -422,7 +443,7 @@ def questionpage(request):
     paginator=Paginator(ques,1)
 
     prev_ans=""
-    
+    answered=""
 
     try:
         questions=paginator.page(page)
@@ -436,11 +457,16 @@ def questionpage(request):
         questions=paginator.page(paginator.num_pages)
     
     l1=""
+    has_ans=False
     try:
+        
+        answered=Cbt_ExamSession.objects.filter(student=Cbt_students.objects.get(matricnumber=request.session['matricno']),question__module__code=module)
+        answeredlist=[ans.question.question for ans in answered]
+        qlist=[q.question for q in ques]
         sessionque=Cbt_ExamSession.objects.get(question=Cbt_questions.objects.get(pk=questions.object_list[0].pk),student=Cbt_students.objects.get(matricnumber=request.session['matricno']))
         prev_ans=sessionque.studentchoice
         print('prevchoice.............................................',prev_ans)
-
+        has_ans=True                         
 
         transchoice={'a':'0','b':'1','c':'2','d':'3','e':'4','f':'5','g':'6','h':'7','i':'8'}
         #print('transchoice[2]...................',transchoice[2])
@@ -457,8 +483,17 @@ def questionpage(request):
 
     except Exception as e:
         print('EROR...........................................',e)
-
-    return render(request,'app/questionpage.html',{'questions':questions,'module':module,'duration':time_lenght,'prev_ans':l1.strip('-')})
+    print('qqqqqqqqqqqqqqqqqqqqq....',questions.paginator.page_range)
+    return render(request,'app/questionpage.html',
+                  {
+                   'questions':questions,
+                   'module':module,
+                   'duration':time_lenght,
+                   'prev_ans':l1.strip('-'),
+                   'has_ans':has_ans,
+                   'answeredlist':answeredlist,
+                   'qlist':qlist
+                   })
 
 
 
