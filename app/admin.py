@@ -44,12 +44,22 @@ class Cbt_studentAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         print('^^^^^^^^^^^^^^^^^^^  ',obj.username)
         self.username=obj.firstname+"_"+obj.matricnumber
-        User.objects.create_user(username=self.username,
-                            password=obj.password,
-                            first_name=obj.firstname,
-                            last_name=obj.lastname,
-                            email=obj.email
-                            )
+        try:
+            u=User.objects.get(username=self.username)
+            #u.username=self.username,
+            u.set_password(obj.password)
+            u.first_name=obj.firstname
+            u.last_name=obj.lastname
+            u.email=obj.email
+            u.save()
+        except:
+
+            User.objects.create_user(username=self.username,
+                                password=obj.password,
+                                first_name=obj.firstname,
+                                last_name=obj.lastname,
+                                email=obj.email
+                                )
 
         
         return super().save_model(request, obj, form, change)

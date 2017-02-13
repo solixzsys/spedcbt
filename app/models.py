@@ -174,7 +174,6 @@ class Cbt_sessions(models.Model):
     def __str__(self):
 
         return self.name
-
 class Cbt_students(models.Model):
    
 
@@ -183,7 +182,7 @@ class Cbt_students(models.Model):
     lastname=models.CharField(max_length=200,blank=True)
     middlename=models.CharField(max_length=200,blank=True)
     username=models.CharField(max_length=200,blank=True)
-    password=models.CharField(max_length=200,blank=True)
+    password=models.CharField(max_length=200)
     matricnumber=models.CharField(max_length=20,unique=True)
     email=models.EmailField(blank=True,unique=True)
     phonenumber=models.CharField(max_length=20,blank=True)
@@ -206,6 +205,37 @@ class Cbt_students(models.Model):
         print('^^^^^^^^^^^^^^^^^^^^^^^^^^ saving student')
         self.username=self.firstname+"_"+self.matricnumber
         return super().save(**kwargs)
+#class Cbt_students(models.Model):
+   
+
+#    firstname=models.CharField(max_length=200,blank=True)
+    
+#    lastname=models.CharField(max_length=200,blank=True)
+#    middlename=models.CharField(max_length=200,blank=True)
+#    username=models.CharField(max_length=200,blank=True)
+#    password=models.CharField(max_length=200,blank=True)
+#    matricnumber=models.CharField(max_length=20,unique=True)
+#    email=models.EmailField(blank=True,unique=True)
+#    phonenumber=models.CharField(max_length=20,blank=True)
+#    level=models.ForeignKey(Cbt_level)
+#    session=models.ForeignKey(Cbt_sessions)
+#    semester=models.ForeignKey(Cbt_semester)
+#    faculty=models.ForeignKey(Cbt_faculty)
+#    department=models.ForeignKey(Cbt_department)
+#    picture=models.FileField(upload_to='passport/%Y/%m/%d',blank=True)
+    
+#    class Meta:
+#        verbose_name='CBT STUDENT'
+#        verbose_name_plural='CBT STUDENTS'
+
+#    def __str__(self):
+
+#        return "{}".format(self.username)
+
+#    def save(self,**kwargs):
+#        print('^^^^^^^^^^^^^^^^^^^^^^^^^^ saving student')
+#        self.username=self.firstname+"_"+self.matricnumber
+#        return super().save(**kwargs)
 
 class CBT_Exam(models.Model):
     #status choices
