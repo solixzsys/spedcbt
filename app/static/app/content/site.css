@@ -64,9 +64,33 @@ input[type="checkbox"].input-validation-error {
 
 }
 #post{
-    margin-bottom:1.9em;
+    /*margin-bottom:1.9em;*/
    
 }
 .progress{
     color:green;
+}
+.panel-heading{
+    font-size:24px;
+}
+.sep{
+    border-top:1px solid #c2c1c1;
+}
+.optionlist .radio label,.optionlist .checkbox label{
+    font-weight:bolder;
+    font-size:18px;
+    
+
+
+}
+.optionlist input[type=radio],.optionlist input[type=checkbox]{
+width:18px;
+    height:18px;
+    
+}
+
+.optionlist label{
+    /*color:red;*/
+    margin-left:20px;
+    padding:5px;
 }

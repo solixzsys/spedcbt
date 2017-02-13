@@ -24,7 +24,7 @@
         <span id="timepart" class="" >
             
         </span>
-       
+       <h4 style="text-align:center;font-weight:bolder;text-decoration:underline">{{module}}</h4>
     </div>
 
     <div class="col-md-4">
@@ -33,53 +33,27 @@
         </div>
        
     </div>
+     
 </div>
-{#containing the navigation button #}
-<div class="row  " style="margin-top:4%">
-   <div class="col-xs-2">
 
-
-    </div>
-    <div class="col-xs-2  " style=" text-align:right" >
-       {% if questions.has_previous %}
-        <a id="prev" href="/questionpage?module={{module}}&&page={{ questions.previous_page_number }}" class="btn btn-default ">Previous</a>
-        {% endif %}
-    </div>
-
-    <div class="col-xs-2"  style="text-align:right">
-      
-       <a id="post"  class="btn btn-default"  >Submit</a>
-    </div>
-
-    <div class="col-xs-2"  style=" text-align:right">
-       {% if questions.has_next %}
-         <a id="prev" href="/questionpage?module={{module}}&&page={{ questions.next_page_number }}" class="btn btn-default  ">Next</a>
-        {% endif %} 
-       
-    </div>
-   <div class="col-xs-2">
-
-
-    </div>
-</div>
 
 
 
 {#content area containing the question#}
-<div class="row" style="padding-top:0">
-
+<div class="row" style="margin-bottom:1%;margin-top:1%;:1%;padding-left:5%;padding-right:5%;padding-top:4%">
+    
     <div class="col-md-2">
 
 
     </div>
 
-    <div class="col-md-8" style="margin-bottom:5%;padding-bottom:5%;padding-left:5%;padding-right:5%; color:black">
+    <div class="col-md-8" style=" color:black">
         <div class="panel panel-info">
             <div class="panel-heading">
 
                 {%for question in questions %}
                 <p>
-                    {{questions.number}}.  - {{question.question}}
+                    {{questions.number}}.    {{question.question}}
                     <span id="qlist" class="hidden" >
             {{qlist}}
         </span>
@@ -88,13 +62,13 @@
         </span>
                 </p>
             </div>
-            <div class="panel-body"style="margin-left:2em">
+            <div class="panel-body optionlist"style="margin-left:2em; font-weight:bolder">
                 {% if question.questiontype == 'SINGLE' %}
                 <p>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="optiongrp"  />{{question.optionA}}
+                            <input type="radio" name="optiongrp"   />{{question.optionA}}
                         </label>
                     </div>
 
@@ -156,13 +130,48 @@
         </div>
     </div>
 </div>
-{#containing the navigation cube tray#}
-<div class="row"  >
-    <div class="col-md-2"></div>
+
+{#containing the navigation button #}
+<div class="row  " style="margin-top:1%">
+    <div class="col-xs-12">
+        <hr class="sep"/>
+    </div>
+   <div class="col-xs-12" style="text-align:center">
+
+
     
-    <div class="col-md-8" >
+    <span>
+       {% if questions.has_previous %}
+        <a id="prev" href="/questionpage?module={{module}}&&page={{ questions.previous_page_number }}" class="btn btn-default ">Previous</a>
+        {% endif %}
+    </span>
+
+    <span >
+      
+       <a id="post"  class="btn btn-default"  >Submit</a>
+    </span>
+
+    <span >
+       {% if questions.has_next %}
+         <a id="prev" href="/questionpage?module={{module}}&&page={{ questions.next_page_number }}" class="btn btn-default  ">Next</a>
+        {% endif %} 
+       
+    </span>
+   
+
+
+    </div>
+     <div class="col-xs-12">
+        <hr class="sep"/>
+    </div>
+</div>
+{#containing the navigation cube tray#}
+<div class="row" style="margin-top:5%"  >
+    
+    
+    <div class="col-xs-12 center-block "style="text-align:center" >
         
-        <ul class="pagination">
+        <ul class="pagination" >
             {% for i in questions.paginator.page_range %}
             {% if questions.number == i %}
             <li class="active"><span>{{ i }} <span class="sr-only">( current) </span></span></li>
@@ -180,7 +189,7 @@
        
     </div>
   
-    <div class="col-md-1"></div>
+   
 </div>
 {% endif %}
 

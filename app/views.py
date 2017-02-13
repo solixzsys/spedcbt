@@ -172,23 +172,30 @@ def about(request):
 
 
 def result(request):
+    if request.user.is_authenticated():
+        try:
+            std_session=Cbt_StudentSession.objects.filter(student__username__icontains=request.user)
+            mod=std_session[0].module
+            number_of_question=Cbt_questions.objects.filter(module=mod).count()
+            print('mod from result ++++++++++++++++++++++++++',mod)
 
-    std_session=Cbt_StudentSession.objects.filter(student__username__icontains=request.user)
-    mod=std_session[0].module
-    number_of_question=Cbt_questions.objects.filter(module=mod).count()
-    print('mod from result ++++++++++++++++++++++++++',mod)
-
-
-    return render(request,'app/result.html',{
-        'exam_info':std_session,
-        'qnumber':number_of_question,
-        })
+        except Exception as e:
+            print('You have no Record Yet !!!')
+            print(e)
+            return HttpResponseRedirect('/')
+        return render(request,'app/result.html',{
+            'exam_info':std_session,
+            'qnumber':number_of_question,
+            })
+    else:
+        return HttpResponseRedirect('/login/')
 
 def postanswer(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
 
-    
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
 
 
 
@@ -419,6 +426,8 @@ def get_answer(request):
 
 def questionpage(request):
     print('inside view.......................')
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
     module= request.GET.get('module')
     print(module," selected....................")
     
@@ -444,6 +453,8 @@ def questionpage(request):
 
     prev_ans=""
     answered=""
+    answeredlist=[]
+    qlist=[]
 
     try:
         questions=paginator.page(page)
