@@ -410,7 +410,8 @@ def questionpage1(request,module):
                 }
             )
     return HttpResponseRedirect('/boardpage/')
-
+def legible(request):
+    pass
 def get_answer(request):
     mn=request.session.get('matricno',0)
     answeredlist=''

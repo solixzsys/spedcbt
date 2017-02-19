@@ -1,127 +1,178 @@
-﻿
-
-{% extends "app/layout.html" %}
+﻿{% extends "app/layout.html" %}
 
 
 {% block content %}
 
-<h2>HERE IS UR RESULT</h2> 
+<h2>HERE IS UR RESULT</h2>
 <div class="row">
     <div class="col-md-1"></div>
-   <div class="col-md-10">
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    {% for exam in exam_info %}
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{exam.module}}" aria-expanded="true" aria-controls="collapseOne">
-          <span><h4>{{exam.module}} Result</h4></span>
-        </a>
-      </h4>
+    <div class="col-md-8">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            {% for exam in exam_info %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{exam.module}}" aria-expanded="true" aria-controls="collapseOne">
+                            <span><h4>{{exam.module}} Result</h4></span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne{{exam.module}}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            
+                            <tr>
+                                <td><b>First Name</b></td>
+                                <td>{{exam.student.firstname}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Last Name</b></td>
+                                <td>{{exam.student.lastname}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Matric Number</b></td>
+                                <td>{{exam.student.matricnumber}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Department</b></td>
+                                <td>{{exam.student.department}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Faculty</b></td>
+                                <td>{{exam.student.faculty}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Total Questions Attempt</b></td>
+                                <td>{{exam.total_attempt}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Total Number Of Questions</b></td>
+                                <td id="total_que">{{exam.total_questions}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Total Score</b></td>
+                                <td id="total_score">{{exam.total_score}}</td>
+
+                            </tr>
+
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
     </div>
-    <div id="collapseOne{{exam.module}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-        <table class="table table-striped">
-                       
-                       <tr>
-                           <td><b>First Name</b></td>
-                           <td>{{exam.student.firstname}}</td>
-
-                       </tr>
-                       <tr>
-                           <td><b>Last Name</b></td>
-                           <td>{{exam.student.lastname}}</td>
-
-                       </tr>
-                       <tr>
-                           <td><b>Matric Number</b></td>
-                           <td>{{exam.student.matricnumber}}</td>
-
-                       </tr>
-                       <tr>
-                           <td><b>Department</b></td>
-                           <td>{{exam.student.department}}</td>
-
-                       </tr>
-                       <tr>
-                           <td><b>Faculty</b></td>
-                           <td>{{exam.student.faculty}}</td>
-
-                       </tr>
-                        <tr>
-                           <td><b>Total Questions Attempt</b></td>
-                           <td>{{exam.total_attempt}}</td>
-
-                       </tr>
-             <tr>
-                           <td><b>Total Number Of Questions</b></td>
-                           <td>{{exam.total_questions}}</td>
-
-                       </tr>
-                        <tr>
-                           <td><b>Total Score</b></td>
-                           <td>{{exam.total_score}}</td>
-
-                       </tr>
-
-                       
-                   </table>
-      </div>
+    <div id="score_chart" class="col-md-1" style="width:200px;height:200px">
+        <canvas id="myChart" ></canvas>
     </div>
-  </div>
- {% endfor %}
 </div>
-
-    <canvas id="myChart" width="400" height="400"></canvas>
-
-
-</div>
- <div class="col-md-1"></div>
-</div>
-
+<script src="../../static/app/scripts/jquery-1.10.2.js"></script>
 <script src="../../static/app/scripts/Chart.js"></script>
 
 <script>
-    var ctx = document.getElementById("myChart");
-    label_list=["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels:label_list ,
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
+    $(function () {
+        $(".panel-collapse").on('shown.bs.collapse', function (e) {
+            
+            var ctx = document.getElementById("myChart");
+            Chart.defaults.global.maintainAspectRatio = false;
+            //label_list = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+            x = parseInt($('#'+$(this).attr('id')+   ' #total_score').text())
+            y = parseInt($('#' + $(this).attr('id') + ' #total_que').text())
+            x1 = parseInt((x / y) * 100);
+            y1 = parseInt(((y-x) / y) * 100);
+            //alert('x is: '+x1+' y is: '+y1);
+            datalist = [x1,y1 ]
+            //var myChart = new Chart(ctx, {
+            //    type: 'bar',
+            //    data: {
+            //        labels:label_list ,
+            //        datasets: [{
+            //            label: '# of Votes',
+            //            data: [12, 19, 3, 5, 2, 3],
+            //            backgroundColor: [
+            //                'rgba(255, 99, 132, 0.2)',
+            //                'rgba(54, 162, 235, 0.2)',
+            //                'rgba(255, 206, 86, 0.2)',
+            //                'rgba(75, 192, 192, 0.2)',
+            //                'rgba(153, 102, 255, 0.2)',
+            //                'rgba(255, 159, 64, 0.2)'
+            //            ],
+            //            borderColor: [
+            //                'rgba(255,99,132,1)',
+            //                'rgba(54, 162, 235, 1)',
+            //                'rgba(255, 206, 86, 1)',
+            //                'rgba(75, 192, 192, 1)',
+            //                'rgba(153, 102, 255, 1)',
+            //                'rgba(255, 159, 64, 1)'
+            //            ],
+            //            borderWidth: 1
+            //        }]
+            //    },
+            //    options: {
+            //        scales: {
+            //            yAxes: [{
+            //                ticks: {
+            //                    beginAtZero:true
+            //                }
+            //            }]
+            //        }
+            //    }
+            //});
+            var myChart2 = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        'Score',
+                        'Remaining'
+
+                    ],
+                    datasets: [
+                        {
+                            data: datalist,
+                            backgroundColor: [
+                                '#FF6384',
+                                '#aaaaaa'
+
+                            ],
+
+                        }
+                    ],
+                   
+
+
+                },
+                options: {
+
+                    tooltips: {
+                        mode: 'label',
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return data.datasets[0]['data'][tooltipItem['index']]+'%';
+                            }
+                        }
+
+                    }
                 }
-            }]
-        }
-    }
-});
+
+            });
+
+
+
+        });
+    })
 </script>
-
-
-  {% endblock %}
+{% endblock %}
 
