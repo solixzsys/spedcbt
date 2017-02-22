@@ -1,6 +1,8 @@
 from django.contrib import admin
 from app.models import *
 from django import forms
+from tinymce.widgets import TinyMCE
+
 
 admin.site.site_header="fxSoftLogix"
 admin.site.site_title="CBTCUBE Administration"
@@ -86,9 +88,15 @@ admin.site.register(Cbt_sessions)
 
 
 
-
+class QForm(forms.ModelForm):
+    question=forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 4}))
+    
+    class Meta:
+        model=Cbt_questions
+        fields = ('question_code','question','scheduled','module','questiontype','level','semester','creator','optionA','optionB','optionC','optionD','optionE','optionF','optionG','optionH','optionI','optionJ',)
 
 class Cbt_questionAdmin(admin.ModelAdmin):
+    form=QForm
     list_display=('question_code','question','scheduled','module','questiontype')
     list_filter=('module__code',)
     def get_queryset(self, request):

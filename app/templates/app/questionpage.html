@@ -53,7 +53,7 @@
 
                 {%for question in questions %}
                 <p>
-                    {{questions.number}}.    {{question.question}}
+                    {{questions.number}}.    {{question.question|safe}}
                     <span id="qlist" class="hidden" >
             {{qlist}}
         </span>
