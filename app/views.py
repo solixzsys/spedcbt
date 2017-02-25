@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.views import login,logout
 from datetime import datetime
 from django.http import JsonResponse
-
+from django.core.cache import cache
 def mylogin(request):
     matricno=request.POST.get('matricnumber','')
     request.session['matricno']=matricno

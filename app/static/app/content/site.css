@@ -94,3 +94,57 @@ width:18px;
     margin-left:20px;
     padding:5px;
 }
+
+.modulebox{
+    padding:20px;
+    margin-right:5px;
+    margin-left:5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    background-color:#f6e484;
+    min-width:200px;
+}
+#header{
+    padding-bottom:20px;
+    height:60px;
+}
+.colMS{
+    margin-right:0;
+}
+.modulename{
+    font-weight:bolder;
+}
+.module1{
+
+}
+
+#content-related1{
+    background-color: #f8f8f8;
+    margin-right:20px;
+    margin-top:70px;
+    padding:10px;
+}
+
+.appheader{
+    padding:10px;
+    /*padding-bottom:10px;*/
+    font-weight:bold;
+}
+.module1 h2{
+    padding:16px;
+    border-bottom:1px solid #c2c1c1;
+    font-size:18px;
+}
+
+.module1 h3{
+    padding:16px;
+    font-weight:bold;
+    font-size:14px;
+}
+.module1 .actionlist li{
+    padding-left:10px;
+    margin-bottom:10px;
+}
+.dashboard{
+    padding-top:0;
+}

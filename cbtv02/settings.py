@@ -35,11 +35,7 @@ INSTALLED_APPS = [
     
     # Add your apps here to enable them
     'app',
-<<<<<<< HEAD
-    'flat_responsive',
-    'tinymce',
-=======
->>>>>>> parent of a92cec0... before adding django-responsive
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,8 +61,10 @@ ROOT_URLCONF = 'cbtv02.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [
+            r"C:\Users\Coder\documents\visual studio 2015\Projects\cbtv02\cbtv02\templates",
+            ],
+        #'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -75,6 +73,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
             ],
+            'loaders':[
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+                ],
         },
     },
 ]
