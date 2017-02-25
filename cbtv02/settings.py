@@ -35,7 +35,11 @@ INSTALLED_APPS = [
     
     # Add your apps here to enable them
     'app',
+<<<<<<< HEAD
+    'flat_responsive',
     'tinymce',
+=======
+>>>>>>> parent of a92cec0... before adding django-responsive
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,16 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
 ]
-
-
-TINYMCE_DEFAULT_CONFIG = {
-'theme': "advanced",
-'theme_advanced_toolbar_location' : "top",
-#'theme_advanced_buttons1': "bold,italic,underline,separator,bullist,separator,outdent,indent,separator,undo,redo",
-#'theme_advanced_buttons2': "",
-#'theme_advanced_buttons3': "",
-'plugins': "paste", 
-}
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
