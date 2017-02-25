@@ -439,7 +439,16 @@ def questionpage(request):
         request.session['module']=module
 
     m=Cbt_modules.objects.get(code=module)
-    ques=Cbt_questions.objects.filter(module=m)
+
+
+    if cache.get(request.session['matricno'],'0')=='0':
+        ques=Cbt_questions.objects.filter(module=m).order_by('?')
+        cache.set(request.session['matricno'],ques)
+    else:
+        ques=cache.get(request.session['matricno'])
+
+
+
     scheduledexam=CBT_Exam.objects.get(module=m)
     time_lenght=scheduledexam.time_length
     print('Time length.........................',time_lenght)
