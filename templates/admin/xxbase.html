@@ -4,26 +4,27 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+    
     {% block extrastyle %}{% endblock %}
     {% if LANGUAGE_BIDI %}
     <link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
     {% block extrahead %}
-    
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
-    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
+
     {% endblock %}
     {% block blockbots %}
-    <meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+    <meta name="robots" content="NONE,NOARCHIVE" />
+    {% endblock %}
 </head>
 {% load i18n %}
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
       data-admin-utc-offset="{% now "Z" %}">
     <!-- Container -->
-    <div {% block containerid %} id="container"{% endblock %}>
+    <div   {% block containerstyle %} id="container" {% endblock %}   >
+        
         {% if not is_popup %}
         <!-- Header -->
-        {% block headerstyle%}
         <div id="header">
             <div id="branding">
                 {% block branding %}{% endblock %}
@@ -56,7 +57,6 @@
             {% block nav-global %}{% endblock %}
         </div>
         <!-- END Header -->
-        {% endblock %}
         {% block breadcrumbs %}
         <div class="breadcrumbs">
             <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
@@ -68,7 +68,6 @@
         {% if messages %}
         <ul class="messagelist">
             {% for message in messages %}
-    
             <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
                 {{ message|capfirst }}</li>
                 {% endfor %}
@@ -76,19 +75,26 @@
         {% endif %}
         {% endblock messages %}
         <!-- Content -->
-        <div {% block contentstyle %} id="content"{% endblock %} class="{% block coltype %}colM{% endblock %}">
-            {% block pretitle %}{% endblock %}
-            {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
-            {% block content %}
-            {% block object-tools %}{% endblock %}
-            {{ content }}
-            {% endblock %}
-            {% block sidebar %}{% endblock %}
-            <br class="clear" />
+        <div id="content1" class="{% block coltype %}colM{% endblock %}">
+            <div class="row " style="margin-left:30px; margin-right:30px;">
+
+                {% block pretitle %}{% endblock %}
+                {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+                {% block content %}
+                {% block object-tools %}{% endblock %}
+                {{ content }}
+                {% endblock %}
+
+
+                {% block sidebar %}{% endblock %}
+
+
+            </div>
         </div>
         <!-- END Content -->
         {% block footer %}<div id="footer"></div>{% endblock %}
     </div>
+    
     <!-- END Container -->
 </body>
 </html>
