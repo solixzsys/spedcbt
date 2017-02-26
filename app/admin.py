@@ -6,7 +6,10 @@ admin.site.site_header="fxSoftLogix"
 admin.site.site_title="CBTCUBE Administration"
 admin.site.register(Cbt_role)
 from django.http import HttpResponseRedirect
+from django.contrib.admin.models import LogEntry
 
+
+admin.site.register(LogEntry)
 
 class Cbt_examinerAdmin(admin.ModelAdmin):
     def examiner_name(self,obj):
@@ -162,3 +165,4 @@ class Cbt_StudentSessionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Cbt_StudentSession,Cbt_StudentSessionAdmin)
+
