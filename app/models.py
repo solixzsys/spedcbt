@@ -131,6 +131,7 @@ class Cbt_questions(models.Model):
     )
 
     question=models.TextField(default="")
+    question_with_image=models.BooleanField(default=False)
     question_code=models.CharField(max_length=50,default="")
     level=models.ForeignKey(Cbt_level,default="")
     semester=models.ForeignKey(Cbt_semester,default="")

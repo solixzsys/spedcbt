@@ -7,6 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    margin-top:50px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -122,7 +123,7 @@ width:18px;
     font-weight:bolder;
 }
 .collapse{
-    /*display:block;*/
+    display:block;
 }
 
 
@@ -286,3 +287,4 @@ box-shadow: -1px 0px 5px 1px rgba(0,0,0,0.44);
 .navbar-default .navbar-nav > li > a{
     color:#fff;
 }
+
