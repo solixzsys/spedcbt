@@ -54,7 +54,7 @@ $(function () {
 
            .done(function (data) {
                console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myans' + data.ans)
-               //console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myque' + data.ques)
+               console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myque' + data.ques)
                setcolor(data.ques,data.ans);
 
            });
@@ -73,10 +73,17 @@ $(function () {
         $.each(links, function (i, v) {
             console.log(ques[i]+' ----------- '+i)
             
-            if (ans.indexOf(ques[$(v).html()-1]) > 0) {
-                console.log('^^^^^^^^^^^^^^^^^^^^^^ match')
-                $(v).css({'color':'green'})
+            if (ans.indexOf(ques[i]) > 0) {
+                console.log(v + ' ^^^^^^^^^^^^^^^^^^^^^^ match')
+                $(v).css({ 'color': 'green' })
+
             }
+
+
+            //if (ans.indexOf(ques[$(v).html()-2]) > 0) {
+            //    console.log(v+' ^^^^^^^^^^^^^^^^^^^^^^ match')
+            //    $(v).css({'color':'green'})
+            //}
         })
        
         

@@ -420,9 +420,9 @@ def get_answer(request):
         mod=request.session.get('module','')
         if mod != '':
             answered=Cbt_ExamSession.objects.filter(student=Cbt_students.objects.get(matricnumber=mn),question__module__code=mod)
-            answeredlist=[ans.question.question for ans in answered]
+            answeredlist=[ans.question.question_code for ans in answered]
             ques=Cbt_questions.objects.filter(module__code=mod)
-            qlist=[q.question for q in ques]
+            qlist=[q.question_code for q in ques]
     return JsonResponse({'ans':answeredlist,'ques':qlist})
 
 def questionpage(request):

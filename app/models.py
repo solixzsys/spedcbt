@@ -188,7 +188,7 @@ class Cbt_questions(models.Model):
         return self._meta.get_fields()
 
     def save(self, **kwargs):
-        self.question_code="{}-{}-{}".format(self.module,self.level,self.semester)
+        self.question_code="{}-{}-{}-{}".format(self.module,self.level,self.semester,self.pk)
         
         return super().save(**kwargs)
 

@@ -156,13 +156,16 @@ class CBT_ExamAdmin(admin.ModelAdmin):
 admin.site.register(CBT_Exam,CBT_ExamAdmin)
 
 class Cbt_ExamSessionAdmin(admin.ModelAdmin):
-    list_display=('student','modulecode','question','studentchoice','examiner_answer','result')
+    list_display=('student','modulecode','question_code','question','studentchoice','examiner_answer','result')
     search_fields = ['student','question__module__code']
     list_filter=('question__module__code','student')
     def modulecode(self,obj):
         return obj.question.module
     def examiner_answer(self,obj):
         return obj.question.answer
+    def question_code(self,obj):
+        return obj.question.question_code
+
 
 admin.site.register(Cbt_ExamSession,Cbt_ExamSessionAdmin)
 
