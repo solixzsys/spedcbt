@@ -465,13 +465,16 @@ def questionpage(request):
     answered=""
     answeredlist=[]
     qlist=[]
+    myfields=[]
 
     try:
         questions=paginator.page(page)
         #saving the pk of the question to the session object
         #we are using this shutcut bcos we know that there is only one question per page
         request.session['qkey']=questions.object_list[0].pk
-
+        for f in questions[0]._meta.get_fields():
+            if(('option' in f.name) and ('image' not in f.name)and (getattr(questions[0],f.name) !='')):
+                myfields.append( getattr(questions[0],f.name))
     except PageNotAnInteger:
         questions=paginator.page(1)
     except EmptyPage:
@@ -508,6 +511,7 @@ def questionpage(request):
     return render(request,'app/questionpage.html',
                   {
                    'questions':questions,
+                   'myfields':myfields,
                    'module':module,
                    'duration':time_lenght,
                    'prev_ans':l1.strip('-'),

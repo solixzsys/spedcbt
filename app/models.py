@@ -125,6 +125,12 @@ class Cbt_semester(models.Model):
 
         
 class Cbt_questions(models.Model):
+
+
+    def photopath(self,filename):
+
+        return 'question/'+self.module.code+'/'+str(datetime.today().year)+'/'+str(datetime.today().month)+'/'+filename
+
     QUESTION_TYPES=(
     ('SINGLE','SINGLE'),
     ('MULTIPLE','MULTIPLE')
@@ -132,6 +138,7 @@ class Cbt_questions(models.Model):
 
     question=models.TextField(default="")
     question_with_image=models.BooleanField(default=False)
+    question_image=models.FileField(upload_to=photopath,blank=True)
     question_code=models.CharField(max_length=50,default="")
     level=models.ForeignKey(Cbt_level,default="")
     semester=models.ForeignKey(Cbt_semester,default="")
@@ -142,20 +149,43 @@ class Cbt_questions(models.Model):
     answer=models.CharField(max_length=10,default="",blank=True)
     #answerd=models.BooleanField(default=False)
     optionA=models.CharField(max_length=200,default="",blank=True,verbose_name="Option A")
+    optionA_with_image=models.BooleanField(default=False)
+    optionA_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionB=models.CharField(max_length=200,default="",blank=True,verbose_name="Option B")
+    optionB_with_image=models.BooleanField(default=False)
+    optionB_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionC=models.CharField(max_length=200,default="",blank=True,verbose_name="Option C")
+    optionC_with_image=models.BooleanField(default=False)
+    optionC_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionD=models.CharField(max_length=200,default="",blank=True,verbose_name="Option D")
+    optionD_with_image=models.BooleanField(default=False)
+    optionD_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionE=models.CharField(max_length=200,default="",blank=True,verbose_name="Option E")
+    optionE_with_image=models.BooleanField(default=False)
+    optionE_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionF=models.CharField(max_length=200,default="",blank=True,verbose_name="Option F")
+    optionF_with_image=models.BooleanField(default=False)
+    optionF_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionG=models.CharField(max_length=200,default="",blank=True,verbose_name="Option G")
+    optionG_with_image=models.BooleanField(default=False)
+    optionG_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionH=models.CharField(max_length=200,default="",blank=True,verbose_name="Option H")
+    optionH_with_image=models.BooleanField(default=False)
+    optionH_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionI=models.CharField(max_length=200,default="",blank=True,verbose_name="Option I")
+    optionI_with_image=models.BooleanField(default=False)
+    optionI_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     optionJ=models.CharField(max_length=200,default="",blank=True,verbose_name="Option J")
+    optionJ_with_image=models.BooleanField(default=False)
+    optionJ_image=models.FileField(upload_to='question/%Y/%m/%d',blank=True)
     
-
+    
     class Meta:
         verbose_name='CBT QUESTION'
         verbose_name_plural='CBT QUESTIONS'
+
+    def metafield(self):
+        return self._meta.get_fields()
 
     def save(self, **kwargs):
         self.question_code="{}-{}-{}".format(self.module,self.level,self.semester)

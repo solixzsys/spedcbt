@@ -103,15 +103,24 @@ class Cbt_questionAdmin(admin.ModelAdmin):
 
     fieldsets = (
     (None, {
-        'fields': ('question', 'level', 'semester','module','creator','questiontype')
+        'fields': (('question','question_with_image','question_image'), 'level', 'semester','module','creator','questiontype')
     }),
     ('Answer and Options', {
         'classes': ('collapse',),
-        'fields': ('optionA', 'optionB', 'optionC', 'optionD', 'answer')
+        'fields': (('optionA','optionA_with_image','optionA_image'), 
+                   ('optionB','optionB_with_image','optionB_image'), 
+                   ('optionC','optionC_with_image','optionC_image'), 
+                   ('optionD','optionD_with_image','optionD_image'),
+                   ( 'answer'))
     }),
     ('Additional Options', {
         'classes': ('collapse',),
-        'fields': ('optionE', 'optionF', 'optionG', 'optionH', 'optionI', 'optionJ')
+        'fields': (('optionE','optionE_with_image','optionE_image'), 
+                   ('optionF','optionF_with_image','optionF_image'), 
+                   ('optionG','optionG_with_image','optionG_image'), 
+                   ('optionH','optionH_with_image','optionH_image'),
+                   ('optionI','optionI_with_image','optionI_image'),
+                   ('optionJ','optionJ_with_image','optionJ_image'))
     }),
 )
 admin.site.register(Cbt_questions,Cbt_questionAdmin)
