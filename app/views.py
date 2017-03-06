@@ -315,6 +315,7 @@ def reset(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     print('inside reset...............................................')
+    cache.clear()
     #if request.session.has_key('module'):
     #    del request.session['module']
     #    del request.session['pagenum']
@@ -327,9 +328,9 @@ def reset(request):
     #    del request.session['tattempt']
     #    del request.session['tresult']
     #    print('session deleted.........................')
-    request.session.flush()
-    logout(request)
-    return HttpResponseRedirect('/boardpage/')
+    #request.session.flush()
+    #logout(request)
+    return HttpResponseRedirect('/logout')
 
 
 
@@ -442,11 +443,12 @@ def questionpage(request):
 
 
     if cache.get(request.session['matricno'],'0')=='0':
+        print('---------------- setting queryset cache for the first time----------------------')
         ques=Cbt_questions.objects.filter(module=m).order_by('?')
         cache.set(request.session['matricno'],ques)
     else:
         ques=cache.get(request.session['matricno'])
-
+        print('--------------- retrieving queryset from cache ----------------------')
 
 
     scheduledexam=CBT_Exam.objects.get(module=m)

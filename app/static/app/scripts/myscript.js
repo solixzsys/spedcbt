@@ -1,7 +1,9 @@
 ﻿
 $(function () {
 
-    if (Cookies.get('start_time', { path: '/questionpage' }) == undefined) {
+   
+
+    if(Cookies.get('start_time', { path: '/questionpage' }) == undefined) {
         console.log('fresh...........................................................');
     } else {
         console.log('not so fresh...........................................................');
