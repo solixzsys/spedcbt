@@ -122,10 +122,13 @@ width:18px;
 .modulename{
     font-weight:bolder;
 }
-.collapse{
-    display:block;
-}
+/*.collapse{
+    display:none;
+}*/
 
+form fieldset.collapse{
+    display:block
+}
 
 #content-related1{
     background-color: #f8f8f8;
