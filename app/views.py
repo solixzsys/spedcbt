@@ -422,8 +422,19 @@ def get_answer(request):
         if mod != '':
             answered=Cbt_ExamSession.objects.filter(student=Cbt_students.objects.get(matricnumber=mn),question__module__code=mod)
             answeredlist=[ans.question.question_code for ans in answered]
-            ques=Cbt_questions.objects.filter(module__code=mod)
-            qlist=[q.question_code for q in ques]
+
+
+            if cache.get(request.session['matricno'],'0')=='0':
+                print('---------------- setting queryset cache for the first time----------------------')
+                ques=Cbt_questions.objects.filter(module__code=mod)
+                qlist=[q.question_code for q in ques]
+                cache.set(request.session['matricno'],ques)
+            else:
+                ques=cache.get(request.session['matricno'])
+                qlist=[q.question_code for q in ques]
+                print('--------------- retrieving queryset from cache ----------------------')
+                
+            
     return JsonResponse({'ans':answeredlist,'ques':qlist})
 
 def questionpage(request):
@@ -519,7 +530,8 @@ def questionpage(request):
                    'prev_ans':l1.strip('-'),
                    'has_ans':has_ans,
                    'answeredlist':answeredlist,
-                   'qlist':qlist
+                   'qlist':qlist,
+                   'paginator':paginator
                    })
 
 

@@ -75,9 +75,10 @@ $(function () {
         $.each(links, function (i, v) {
             console.log(ques[i]+' ----------- '+i)
             
-            if (ans.indexOf(ques[i]) > 0) {
+            if (ans.indexOf(ques[i]) > -1) {
                 console.log(v + ' ^^^^^^^^^^^^^^^^^^^^^^ match')
-                $(v).css({ 'color': 'green' })
+                //$(v).css({ 'color': 'green' })
+                $(links[i+1]).css({ 'color': 'green' })
 
             }
 
@@ -188,6 +189,7 @@ $(function () {
     initval();
   
     $('#logoff').click(function () {
+        e.preventDefault();
         console.log('off *******************************************');
         ct(gettoday()+ ' 00:00:00');
 
