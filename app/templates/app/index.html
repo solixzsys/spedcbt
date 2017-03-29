@@ -1,5 +1,11 @@
 {% extends "app/layout.html" %}
-
+{% block customscript%}
+<script type="text/javascript">
+    //console.log("*************************************** costomscript************")
+    //Cookies.remove('start_time', { path: '/questionpage' })
+    //Cookies.remove('timeval', { path: '/questionpage' })
+</script>
+{% endblock%}
 {% block content %}
 
 <div class="jumbotron" style="background-color:darkseagreen">

@@ -1,5 +1,5 @@
 ﻿{% extends "app/layout.html" %}
-
+{% load extra_template %}
 
 {% block content %}
 
@@ -171,9 +171,13 @@
             {% for i in questions.paginator.page_range %}
             {% if questions.number == i %}
             <li class="active"><span>{{ i }} <span class="sr-only">( current) </span></span></li>
+           
+            {% elif qlist|get_at_index:forloop.counter0 in answeredlist %}
+            <li ><a style="color:green;  font-weight:bold" href="/questionpage?module={{module}}&&page={{ i }}">{{ i }}</a></li>
             {% else %}
             <li><a href="/questionpage?module={{module}}&&page={{ i }}">{{ i }}</a></li>
             {% endif %}
+            
             {% endfor %}
             {% if questions.has_next %}
             <li><a href="/questionpage?module={{module}}&&page={{ questions.next_page_number }}">&raquo;</a></li>

@@ -55,8 +55,8 @@ $(function () {
     $.get("/get_answer", {})
 
            .done(function (data) {
-               console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myans' + data.ans)
-               console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myque' + data.ques)
+              // console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myans' + data.ans)
+              // console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££ myque' + data.ques)
                setcolor(data.ques,data.ans);
 
            });
@@ -73,12 +73,12 @@ $(function () {
         
         var links = $('.pagination li a');
         $.each(links, function (i, v) {
-            console.log(ques[i]+' ----------- '+i)
+          //  console.log(ques[i]+' ----------- '+i)
             
             if (ans.indexOf(ques[i]) > -1) {
-                console.log(v + ' ^^^^^^^^^^^^^^^^^^^^^^ match')
+                //console.log(v + ' ^^^^^^^^^^^^^^^^^^^^^^ match')
                 //$(v).css({ 'color': 'green' })
-                $(links[i+1]).css({ 'color': 'green' })
+                //$(links[i+1]).css({ 'color': 'green' })
 
             }
 
@@ -140,7 +140,7 @@ $(function () {
     //}
     var ct = function (cdp) {
 
-        console.log('cdp ...............................................' + get_str_from_datetime(cdp));
+       // console.log('cdp ...............................................' + get_str_from_datetime(cdp));
         $('#timespot').countdown(get_str_from_datetime(cdp))
        .on('update.countdown', function (event) {
            $(this).html(event.strftime('%H:%M:%S'));
@@ -158,14 +158,14 @@ $(function () {
        });
     }
     var initval = function () {
-        console.log('mygetdate().....................................' + mygetdate());
+      //  console.log('mygetdate().....................................' + mygetdate());
         
          countdown_param = mygetdate();
         if ((Cookies.get('start_time') == undefined)) {
             Cookies.set('start_time', mygetdate(), { path: '/questionpage' });
             
         }
-        console.log('set start_time to.............................' + Cookies.get('start_time'));
+     //   console.log('set start_time to.............................' + Cookies.get('start_time'));
         if ((Cookies.get('timeval') != undefined) ){
             
             countdown_param = Cookies.set('timeval');
@@ -179,18 +179,35 @@ $(function () {
             if (new Date(countdown_param).getSeconds() > 0) {
                 t1.setSeconds(-1 * (new Date(countdown_param).getSeconds()));
             }
-            console.log('setting countdown_param to.............................' + t1)
+          //  console.log('setting countdown_param to.............................' + t1)
             countdown_param = t1;
         }
-        console.log('Passing ' + countdown_param + ' to countdown_param.......................................');
+       // console.log('Passing ' + countdown_param + ' to countdown_param.......................................');
         ct(countdown_param);
 
     }
     initval();
   
-    $('#logoff').click(function () {
-        e.preventDefault();
+
+    var me=function(){
+        alert('sssssssssss');
         console.log('off *******************************************');
+        Cookies.remove('start_time', { path: '/questionpage' })
+        Cookies.remove('timeval', { path: '/questionpage' })
+        window.location = '/reset';
+
+        ct(gettoday() + ' 00:00:00');
+
+    }
+
+    $('#pauseme').click(function () {
+         //e.preventDefault();
+        
+        console.log('off *******************************************');
+        Cookies.remove('start_time', { path: '/questionpage' })
+        Cookies.remove('timeval', { path: '/questionpage' })
+        window.location = '/reset';
+
         ct(gettoday()+ ' 00:00:00');
 
     })
