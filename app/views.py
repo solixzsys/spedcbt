@@ -4,7 +4,7 @@ Definition of views.
 import app
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
-from django.http import HttpRequest
+from django.http import HttpRequest,HttpResponse
 from django.template import RequestContext
 from datetime import datetime
 from app.registrationform import RegistrationForm
@@ -117,11 +117,13 @@ def boardpage(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
     print(request.user)
-
+    
+    
     
 
     if request.user.is_authenticated():
         #u=User.objects.get(request.user.email)
+        # print('session on ___________________'+str(request.session.get('sessionstarted',0)))
         try:
             student=Cbt_students.objects.get(matricnumber= request.session['matricno'])
             if student.username != request.user.username:
@@ -135,7 +137,8 @@ def boardpage(request):
             print('login email..............',email)
             s=Cbt_students.objects.get(email=email)
             #m=Cbt_modules.objects.all()
-            schedule_exam = CBT_Exam.objects.all()
+            # schedule_exam = CBT_Exam.objects.all()
+            schedule_exam = CBT_Exam.objects.filter(status='SCHEDULED')
             m=schedule_exam
         
 
@@ -182,7 +185,8 @@ def result(request):
         except Exception as e:
             print('You have no Record Yet !!!')
             print(e)
-            return HttpResponseRedirect('/')
+            return HttpResponse('<h1 style="text-align:center;padding-top:25%;color:red">You have no Record Yet !!!<br><a href="/">Back Home</a></h1>')
+            # return HttpResponseRedirect('/')
         return render(request,'app/result.html',{
             'exam_info':std_session,
             'qnumber':number_of_question,
@@ -335,84 +339,84 @@ def reset(request):
 
 
 
-def questionpage1(request,module):
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    if request.user.is_authenticated():
-        if request.session.get('sessionstart',0)==1:
+# def questionpage1(request,module):
+#     """Renders the about page."""
+#     assert isinstance(request, HttpRequest)
+#     if request.user.is_authenticated():
+#         if request.session.get('sessionstart',0)==1:
 
-            print('sessionstart is set ............')
-        else:
-            print('sessionstart is not set ............')
-        print(module ," selected..............")
-        #print(" page..............",page )
+#             print('sessionstart is set ............')
+#         else:
+#             print('sessionstart is not set ............')
+#         print(module ," selected..............")
+#         #print(" page..............",page )
         
-        step=0
+#         step=0
 
-        if module=='prev':
-            module=request.session['module']
-            step=-1
-        if module=='next':
-            module=request.session['module']
-        if  (request.session.get('sessionstart',0) != 1):
-            try:
-                print('starting queryset..................')
-                m=Cbt_modules.objects.get(code=module)
-                ques=Cbt_questions.objects.filter(module=m).order_by('?')
-                qset=  ques
+#         if module=='prev':
+#             module=request.session['module']
+#             step=-1
+#         if module=='next':
+#             module=request.session['module']
+#         if  (request.session.get('sessionstart',0) != 1):
+#             try:
+#                 print('starting queryset..................')
+#                 m=Cbt_modules.objects.get(code=module)
+#                 ques=Cbt_questions.objects.filter(module=m).order_by('?')
+#                 qset=  ques
                 
-                print('setting qset....................... ')
-            except Exception as e:
-                print(e)
+#                 print('setting qset....................... ')
+#             except Exception as e:
+#                 print(e)
 
-        else:
-            ques=qset
-            print('setting ques....................... ')
+#         else:
+#             ques=qset
+#             print('setting ques....................... ')
         
-        if ques.count()>0:
-            request.session['sessionstart']=1
-            print('sessionstart just set ............')
-            if not request.session.has_key('module'):
-                request.session['module']=module
-                request.session['duration']=time_lenght
-                request.session.set_expiry(0)
-                print('expire is......... ',request.session.get_expiry_age())
-                print('session set....................... to ',request.session['module'])
+#         if ques.count()>0:
+#             request.session['sessionstart']=1
+#             print('sessionstart just set ............')
+#             if not request.session.has_key('module'):
+#                 request.session['module']=module
+#                 request.session['duration']=time_lenght
+#                 request.session.set_expiry(0)
+#                 print('expire is......... ',request.session.get_expiry_age())
+#                 print('session set....................... to ',request.session['module'])
             
-            tim
-            paginator=Paginator(ques,1)
-            if not request.session.has_key('pagenum'):
-                request.session['pagenum']=0
+#             tim
+#             paginator=Paginator(ques,1)
+#             if not request.session.has_key('pagenum'):
+#                 request.session['pagenum']=0
             
-            if step == -1:
-                pagenum=request.session['pagenum']-1
-            else:        
-                pagenum=request.session['pagenum']+1
-            print('pagenum........',pagenum)
-            request.session['pagenum']=pagenum
-            if pagenum>paginator.count:
-                pagenum=1
-                request.session['pagenum']=1
-            if pagenum<1:
-                pagenum=1
-                request.session['pagenum']=1
+#             if step == -1:
+#                 pagenum=request.session['pagenum']-1
+#             else:        
+#                 pagenum=request.session['pagenum']+1
+#             print('pagenum........',pagenum)
+#             request.session['pagenum']=pagenum
+#             if pagenum>paginator.count:
+#                 pagenum=1
+#                 request.session['pagenum']=1
+#             if pagenum<1:
+#                 pagenum=1
+#                 request.session['pagenum']=1
 
-            question=paginator.page(pagenum)
-            return render(
-                request,
-                'app/questionpage.html',
-                {
-                    'title':'About',
-                    'message':'Your application description page.',
-                    'year':datetime.now().year,
-                    'questions':question,
-                    'pagenum':pagenum,
-                    'duration':time_lenght
-                }
-            )
-    return HttpResponseRedirect('/boardpage/')
+#             question=paginator.page(pagenum)
+#             return render(
+#                 request,
+#                 'app/questionpage.html',
+#                 {
+#                     'title':'About',
+#                     'message':'Your application description page.',
+#                     'year':datetime.now().year,
+#                     'questions':question,
+#                     'pagenum':pagenum,
+#                     'duration':time_lenght
+#                 }
+#             )
+#     return HttpResponseRedirect('/boardpage/')
 def legible(request):
-    pass
+    return HttpResponse('<h1 style="text-align:center;padding-top:25%">Under Construction<br><a href="/">Back Home</a></h1>')
 def get_answer(request):
     mn=request.session.get('matricno',0)
     answeredlist=''
@@ -535,7 +539,15 @@ def questionpage(request):
                    })
 
 
+def booklet(request):
+    student=request.GET.get('student')
+    module=request.GET.get('module')
 
+    questions=Cbt_questions.objects.filter(module=Cbt_modules.objects.get(code=module))
+    # print(questions)
+
+
+    return render(request,'app/booklet.html',{'questions':questions,'student':student})
 
 
 

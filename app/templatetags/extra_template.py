@@ -1,5 +1,4 @@
 from django import template
-# Create your models here.
 
 
 register=template.Library()
@@ -8,3 +7,9 @@ register=template.Library()
 def get_at_index(list,index):
     print(list[index])
     return list[index]
+
+
+
+
+
+

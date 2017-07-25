@@ -1,14 +1,14 @@
 from django.contrib import admin
 from app.models import *
 from django import forms
-
+from django.shortcuts import render,redirect
 admin.site.site_header="fxSoftLogix"
 admin.site.site_title="CBTCUBE Administration"
 admin.site.register(Cbt_role)
 from django.http import HttpResponseRedirect
 from django.contrib.admin.models import LogEntry
-
-
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 admin.site.register(LogEntry)
 
 class Cbt_examinerAdmin(admin.ModelAdmin):
@@ -156,24 +156,48 @@ class CBT_ExamAdmin(admin.ModelAdmin):
 admin.site.register(CBT_Exam,CBT_ExamAdmin)
 
 class Cbt_ExamSessionAdmin(admin.ModelAdmin):
-    list_display=('student','modulecode','question_code','question','studentchoice','examiner_answer','result')
+    list_display=('student','modulecode','examiner_answer','result','studentchoice','question_code','question')
     search_fields = ['student','question__module__code']
     list_filter=('question__module__code','student')
+    
     def modulecode(self,obj):
         return obj.question.module
     def examiner_answer(self,obj):
         return obj.question.answer
     def question_code(self,obj):
         return obj.question.question_code
-
+    
 
 admin.site.register(Cbt_ExamSession,Cbt_ExamSessionAdmin)
 
-class Cbt_StudentSessionAdmin(admin.ModelAdmin):
+class StudentSessionResource(resources.ModelResource):
+    class Meta:
+        model=Cbt_StudentSession
+        fields=('student','module','date','total_score','total_questions')
+    def dehydrate_student(self,cbt_studentsession):
+        return cbt_studentsession.student.username
+    def dehydrate_module(self,cbt_studentsession):
+        return cbt_studentsession.module.code       
+
+class Cbt_StudentSessionAdmin(ImportExportModelAdmin):
+    resource_class=StudentSessionResource
     list_display=('student','module','exam_status','date','total_attempt','total_score','total_questions')
     list_filter=('module','student')
+    actions=['display_question','display_results']
 
+    def display_question(self,request,queryset):
+        student=queryset[0].student
+        module=queryset[0].module
+       
+        return HttpResponseRedirect('/booklet/?student='+str(student)+'&module='+str(module))
 
+    display_question.short_description="Display Booklet"     
+
+    def display_results(self,request,queryset):
+        print('*************'+str(queryset))
+        return  render(request,'app/adminresults.html',{'results':queryset})
+
+    display_results.short_description="Display Results"
 
 
 admin.site.register(Cbt_StudentSession,Cbt_StudentSessionAdmin)

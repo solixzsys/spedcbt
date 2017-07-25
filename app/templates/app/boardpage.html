@@ -1,8 +1,17 @@
 {% extends "app/layout.html" %}
+{% block scripts %}
 <script>
-    Cookies.remove('start_time', { path: '/questionpage' })
-    Cookies.remove('timeval', { path: '/questionpage' })
+    // Cookies.remove('start_time', { path: '/questionpage' })
+    // Cookies.remove('timeval', { path: '/questionpage' })
+    // var loc=document.referrer
+    
+    // if(loc.indexOf('/questionpage')>0){
+    //     window.location='/'
+      //  console.log(loc.indexOf('/questionpage')+'***************************')
+
+    // }
 </script>
+{% endblock %}
 {% block content %}
 {% load staticfiles %}
 

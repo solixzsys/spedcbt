@@ -4,6 +4,10 @@
     //console.log("*************************************** costomscript************")
     //Cookies.remove('start_time', { path: '/questionpage' })
     //Cookies.remove('timeval', { path: '/questionpage' })
+    if(loc.indexOf('/questionpage')>0){
+        window.location='/'
+
+    }
 </script>
 {% endblock%}
 {% block content %}

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     
     # Add your apps here to enable them
     'app',
-
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,7 +62,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            r"C:\Users\Coder\documents\visual studio 2015\Projects\cbtv02\cbtv02\templates",
+            # r"C:\Users\Coder\documents\visual studio 2015\Projects\cbtv02\cbtv02\templates",
+               r"C:\Users\Coder\Documents\WebProjects\cbtv02\templates", 
             ],
         #'APP_DIRS': True,
         'OPTIONS': {

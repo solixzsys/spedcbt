@@ -1,5 +1,5 @@
 ﻿{% extends "app/layout.html" %}
-
+{% load result_release %}
 
 {% block content %}
 
@@ -9,7 +9,11 @@
     <div class="col-md-8">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             {% for exam in exam_info %}
-            <div class="panel panel-default">
+
+            {% instance_release exam.module  as instant %}
+            
+            {% if instant %}
+            <div class="panel panel-default" >
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{exam.module}}" aria-expanded="true" aria-controls="collapseOne">
@@ -68,6 +72,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
 

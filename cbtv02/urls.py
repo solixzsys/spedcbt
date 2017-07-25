@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^postanswer', app.views.postanswer, name='postanswer'),
     url(r'^get_answer', app.views.get_answer, name='get_answer'),
     url(r'^legibility', app.views.legible, name='legible'),
+    url(r'^booklet/', app.views.booklet, name='booklet'),
     #url(r'^login/$',
     #    django.contrib.auth.views.login,
     #    {
