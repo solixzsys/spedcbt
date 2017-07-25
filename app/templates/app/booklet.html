@@ -1,5 +1,6 @@
 {% extends "app/layout.html" %}
 {% load exam_session %}
+{% load row_color %}
 {% block content %}
 
 
@@ -22,7 +23,9 @@
             </thead>
             <tbody>
                 {% for question in questions%}
-                <tr>
+                {% get_exam_session question.question_code student %}
+                {% colorize option.studentchoice question.answer%}
+                <tr style="color: {{color}}">
                     <td>{{forloop.counter}}</td>
                 
                     <td>{{question.question}}</td>
@@ -30,7 +33,7 @@
                     <td>{{question.optionB}}</td>
                     <td>{{question.optionC}}</td>
                     <td>{{question.optionD}}</td>
-                    {% get_exam_session question.question_code student %}
+                    
                     <td>{{option.studentchoice}} </td>
                     <td>{{question.answer}} </td>
 

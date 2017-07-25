@@ -3,28 +3,38 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - fxSoftLogix  </title>
+    <title>{{ title }} - FCES CBT  </title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    <style>
+        .navbar-inverse .navbar-nav > li > a{
+            color: #ffffff;
+        }
+        .navbar-inverse .navbar-nav > li > a:hover{
+            color: #999999;
+        }
+        </style>
+        {% block customstyle%}{% endblock%}
     {% block customscript%}{% endblock%}
+
 </head>
 
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img class="pull-left" style="width:50px;height:40px;margin-top:0.4em;padding:3px" src="{% static 'app/images/logo.png' %}" />
-                <a href="/" class="navbar-brand">CBTCUBE</a>
+                <a href="/"> <img class="pull-left" style="width:270px;height:70px;margin-top:0.4em;padding:3px" src="{% static 'app/images/logo2.png' %}" /></a>
+                <!--<a href="/" class="navbar-brand">FCES-CBT</a>-->
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul style="margin: 20px 0 0 50px;font-weight: bold"  class="nav navbar-nav">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'about' %}">About</a></li>
                     <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -35,11 +45,11 @@
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" {% block content-style %}{% endblock %}>
 {% block content %}{% endblock %}
         <hr/>
         <footer>
-            <p>&copy; {{ year }} - fxSoftLogix </p>
+            <p>&copy; {{ year }} - fces-cbt </p>
         </footer>
     </div>
 

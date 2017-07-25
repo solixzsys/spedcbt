@@ -2,8 +2,8 @@ from django.contrib import admin
 from app.models import *
 from django import forms
 from django.shortcuts import render,redirect
-admin.site.site_header="fxSoftLogix"
-admin.site.site_title="CBTCUBE Administration"
+admin.site.site_header="FCES"
+admin.site.site_title="FCES-CBT Administration"
 admin.site.register(Cbt_role)
 from django.http import HttpResponseRedirect
 from django.contrib.admin.models import LogEntry

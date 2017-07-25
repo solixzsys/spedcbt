@@ -104,15 +104,7 @@ def register(request):
 def contact(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/contact.html',
-        {
-            'title':'Contact',
-            'message':'Your contact page.',
-            'year':datetime.now().year,
-        }
-    )
+    return  HttpResponse('<h1 style="text-align:center;color:red">Under Construction<br><a href="/">Back Home</a></h1>')
 def boardpage(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)

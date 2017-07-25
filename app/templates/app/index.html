@@ -1,4 +1,30 @@
 {% extends "app/layout.html" %}
+
+{% block customstyle%}
+<style>
+div.service{
+    top:-200px;
+    animation-name: serviceanim;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+@keyframes serviceanim{
+    0%{
+        top:-200px;
+    }
+    80%{
+        top:20px;
+    }
+     100%{
+        top:0px;
+    }
+}
+
+
+</style>
+{% endblock%}
+
 {% block customscript%}
 <script type="text/javascript">
     //console.log("*************************************** costomscript************")
@@ -10,19 +36,21 @@
     }
 </script>
 {% endblock%}
+
+{% block content-style %}style="margin-top:50px"{% endblock %}
 {% block content %}
 
 <div class="jumbotron" style="background-color:darkseagreen">
-    <h1>CBTCUBE Exams</h1>
-    <p class="lead">Welcome to CBTCUBE from fxSoftLogix Exam Platform.</p>
-    <p><a href="https://www.djangoproject.com/" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <h1>FCES CBT Exams</h1>
+    <p class="lead">Welcome to FCES-CBT from FCES Exam Platform.</p>
+    <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 
-<div class="row" style="text-align:center">
-    <div class="col-md-4" >
+<div class="row" style="text-align:center;overflow: hidden">
+    <div class="col-md-4 service" >
         <h2>Start An Exam</h2>
         <p>
-            CBTCUBE gives you a Powerful, Flexible and Extensible robust Platform for your Computer Based Test needs. With its ease of administery test, CBTCUBE is unique with its complex task
+            FCES-CBT gives you a Powerful, Flexible and Extensible robust Platform for your Computer Based Test needs. With its ease of administery test, CBTCUBE is unique with its complex task
             comprhensive TEST administration.
         </p>
         <p>
@@ -33,7 +61,7 @@
             {% endif%}
         </p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 service">
         <h2>Check Scores</h2>
         <p>Instant Result and Visualization check. Evaluate your Performance after taking test.</p>
         
@@ -45,7 +73,7 @@
             {% endif%}
         </p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 service">
         <h2>Exam Eligibility Test</h2>
         <p>Check your Eligibility Status For a Scheduled Exam. This we make you to avoid any unnecessary delay inside exam center</p>
         <p>
